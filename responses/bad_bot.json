@@ -1,4 +1,11 @@
 {
     "inputs": ["bad bot", "stupid bot", "dumb bot", "idiot bot"],
-    "outputs": ["3:", "takes one to know one", "cry about it", "nuh uh"]
+    "outputs": [
+        "3:",
+        "takes one to know one",
+        "cry about it",
+        "nuh uh",
+        "fight me",
+        "your mom"
+    ]
 }
