@@ -1,0 +1,13 @@
+{
+    "inputs": [
+        {
+            "activator": "pixel",
+            "regex": false
+        }
+    ],
+    "outputs": [
+        "-# *Did you mean: **fluffy**?*",
+        "-# *Did you mean: **furry**?*",
+        "-# *Did you mean: **kibty**?*"
+    ]
+}

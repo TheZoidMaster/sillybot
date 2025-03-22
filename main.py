@@ -2,6 +2,8 @@ import os
 import discord
 from dotenv import load_dotenv
 
+from response import load_response
+
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
@@ -10,12 +12,20 @@ intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
 
+def load_responses():
+    responses = []
+    for file in os.listdir('responses'):
+        if file.endswith('.json'):
+            responses.append(load_response(f'responses/{file}'))
+    return responses
+
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
-everyone_triggers = ["everyone", "everybody",
-                     "every person", "every one", "every body"]
+    client.responses = load_responses()
+    print(f'Loaded {len(client.responses)} responses')
 
 
 @client.event
@@ -23,19 +33,18 @@ async def on_message(message: discord.Message):
     if message.author == client.user:
         return
 
-    if any(trigger in message.content.lower() for trigger in everyone_triggers) and "@everyone" not in message.content.lower():
-        await message.reply("hey there it looks like you forgot to actually ping everyone, let me help you with that :3\n@everyone")
+    if message.content == "!reload" and message.author.id == 854819626969333771:
+        client.responses = []
+        for file in os.listdir('responses'):
+            if file.endswith('.json'):
+                client.responses.append(load_response(f'responses/{file}'))
+        await message.reply("Responses reloaded")
+        return
 
-    if "@everyone" in message.content.lower():
-        await message.reply("don't do that agian >:(")
-
-    if "good bot" in message.content.lower():
-        await message.reply(":3")
-
-    if "bad bot" in message.content.lower():
-        await message.reply("3:")
-
-    if "pixel" in message.content.lower():
-        await message.reply("-# *Did you mean: **fluffy**?*")
+    for response in client.responses:
+        output = response.getOutput(message.content)
+        if output:
+            await message.reply(output)
+            break
 
 client.run(TOKEN)
