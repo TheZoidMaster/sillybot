@@ -1,4 +1,5 @@
 import os
+import random
 import discord
 from dotenv import load_dotenv
 
@@ -38,13 +39,16 @@ async def on_message(message: discord.Message):
         for file in os.listdir('responses'):
             if file.endswith('.json'):
                 client.responses.append(load_response(f'responses/{file}'))
-        await message.reply("Responses reloaded")
+        await message.reply(f'Loaded {len(client.responses)} responses')
         return
 
+    potential_responses = []
     for response in client.responses:
         output = response.getOutput(message.content)
         if output:
-            await message.reply(output)
-            break
+            potential_responses.append(output)
+
+    if potential_responses:
+        await message.reply(random.choice(potential_responses))
 
 client.run(TOKEN)

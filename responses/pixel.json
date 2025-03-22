@@ -1,10 +1,5 @@
 {
-    "inputs": [
-        {
-            "activator": "pixel",
-            "regex": false
-        }
-    ],
+    "inputs": ["pixel"],
     "outputs": [
         "-# *Did you mean: **fluffy**?*",
         "-# *Did you mean: **furry**?*",

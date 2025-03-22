@@ -1,31 +1,26 @@
 import random
 from typing import List
-from input_class import Input
 import re
 import json
 
 
 class Response:
-    inputs = List[Input]
+    inputs = List[str]
     outputs = List[str]
 
-    def __init__(self, inputs: List[Input], outputs: List[str]):
+    def __init__(self, inputs: List[str], outputs: List[str]):
         self.inputs = inputs
         self.outputs = outputs
 
     def getOutput(self, input: str) -> str:
         for i in range(len(self.inputs)):
-            if self.inputs[i].regex:
-                if re.search(self.inputs[i].activator, input):
-                    return random.choice(self.outputs)
-            else:
-                if self.inputs[i].activator in input:
-                    return random.choice(self.outputs)
+            if self.inputs[i] in input:
+                return random.choice(self.outputs)
         return None
 
     def to_dict(self):
         return {
-            "inputs": [inp.to_dict() for inp in self.inputs],
+            "inputs": self.inputs,
             "outputs": self.outputs
         }
 
@@ -34,9 +29,7 @@ class Response:
 
     @classmethod
     def from_dict(cls, data: dict):
-        inputs = [Input.from_dict(item) for item in data.get(
-            "inputs", [])]
-        return cls(inputs, data.get("outputs", []))
+        return cls(data.get("inputs", []), data.get("outputs", []))
 
     @classmethod
     def from_json(cls, json_str: str):
