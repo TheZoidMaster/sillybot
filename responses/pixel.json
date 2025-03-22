@@ -1,8 +1,0 @@
-{
-    "inputs": ["pixel"],
-    "outputs": [
-        "-# *Did you mean: **fluffy**?*",
-        "-# *Did you mean: **furry**?*",
-        "-# *Did you mean: **kibty**?*"
-    ]
-}
