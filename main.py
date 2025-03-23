@@ -44,7 +44,7 @@ async def on_message(message: discord.Message):
 
     potential_responses = []
     for response in client.responses:
-        output = response.getOutput(message.content)
+        output = response.getOutput(message.content.lower())
         if output:
             potential_responses.append(output)
 
